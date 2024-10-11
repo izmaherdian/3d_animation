@@ -39,6 +39,27 @@ def square(c = SQUARE_SIDELENGTH):
 
 square_side_coords = square()
 
+# El que vull jo és tenir diverses funcions que donin els punts necessaris per dibuixar una certa figura
+# (cub, torus, etc), aquestes funcions rebrien el nom de square, torus, ... Llavors, aquestes funcions no
+# retornen només una llista de punts, sinó que vull que retorni una matriu on cada element de la primera
+# fila està unit mitjançant una recta amb cada element d'aquella mateixa columna. Així doncs en el cas
+# del cub, els punts (0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1) estan units mitjançant una recta. D'aquesta
+# manera, donada una llista de punts cal trobar una regla per poder crear aquesta matriu (que no té perquè ser quadrada).
+# Un cop tenim això, la funció draw ha de dibuixar les rectes entre els punts que estan units mirant dins a matriu. 
+# Evidentment cal dibuixar les rectes després de transformar els punts.
+
+""" def square():
+    SIDE_LENGTH = 50
+    lst = []
+    mat = []
+    for i in [0, SIDE_LENGTH]:
+        for j in [0, SIDE_LENGTH]:
+            for k in [0, SIDE_LENGTH]:
+                lst.append((i, j, k))
+    for p in lst:
+        
+    return mat """
+
 def draw():
     for i in square_side_coords:
         coords_init = xy_projection(translation(rotation(translation(i, (-SQUARE_SIDELENGTH/2, -SQUARE_SIDELENGTH/2, -SQUARE_SIDELENGTH/2)), alpha, beta, gamma)))
