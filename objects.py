@@ -1,4 +1,6 @@
 import numpy as np
+import transformations as t
+import pygame
 
 class Object:
 
@@ -13,6 +15,9 @@ class Cube(Object):
         self.vertices = self.vertices()
         self.center_of_mass = self.center_of_mass()
         self.edges = self.edges()
+        self.alpha = 0
+        self.beta = 0
+        self.gamma = 0
     
     def vertices(self):
         vertices_matrix = np.array([[0, 0, 0], [0, 0, self.side_length], [0, self.side_length, 0], [0, self.side_length, self.side_length], [self.side_length, 0, 0], [self.side_length, 0, self.side_length], [self.side_length, self.side_length, 0], [self.side_length, self.side_length, self.side_length]])
@@ -25,45 +30,33 @@ class Cube(Object):
         return coords
 
     def edges(self):
-        edges_matrix = []
-        for p in self.vertices:
-            lst = []
-            lst.append(p)
-            for q in self.vertices:
-                if np.linalg.norm(p-q) == self.side_length:
-                    lst.append(q)
-            edges_matrix.append(lst)
+        edges_matrix = np.zeros((8, 4, 3))
+        for i in range(len(self.vertices)):
+            edges_matrix[i][0] = self.vertices[i]
+            k=1
+            for j in range(len(self.vertices)):
+                if np.linalg.norm(self.vertices[j]-edges_matrix[i][0]) == self.side_length:
+                    edges_matrix[i][k] = self.vertices[j]
+                    k+=1
         return edges_matrix
-
-
-cube = Cube(50)
-print(cube.edges)
-
-""" def square():
-    SIDE_LENGTH = 50
-    vert = [(0, 0, 0), (0, 0, 50), (0, 50, 0), (0, 50, 50), (50, 0, 0), (50, 0, 50), (50, 50, 0), (50, 50, 50)]
-    edges = [[(0, 0, 0), (0, 0, 50), (0, 50, 0), (50, 0, 0)],
-                [(0, 0, 50), (50, 0, 50), (0, 50, 50)],
-                [(0, 50, 0), (0, 50, 50), (50, 50, 0)], 
-                [(0, 50, 50), (50, 50, 50)], 
-                [(50, 0, 0), (50, 0, 50), (50, 50, 0)], 
-                [(50, 0, 50), (50, 50, 50)],
-                [(50, 50, 0), (50, 50, 50)]]
     
-    vertices = numpy.empty((8, 3))
-    for col in range(8):
-        for fil in range(3):
-            vertices[col][fil] = vert[col][fil]
+    def draw(self, display, pos):
+        for i in range(len(self.edges)):
+            p_init = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][0], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+            for j in range(len(self.edges[i])):
+                p_fin = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][j], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+                pygame.draw.line(display, "red", p_init, p_fin)
 
-    edges = []
-    for vertice in vertices:
-        lst = []
-        lst.append(vertice)
-        vertices.pop(0)
-        for vertice in vertices:
-            if numpy.linalg.norm(vertice-lst[0]) == SIDE_LENGTH:
-                lst.append(vertice)
-        edges.append(lst)
-        
-    print(edges)
-    return edges """
+    def rotate(self, alpha, beta, gamma):
+        self.yaw(alpha)
+        self.pitch(beta)
+        self.roll(gamma)
+
+    def yaw(self, deg):
+        self.alpha = deg
+    
+    def pitch(self, deg):
+        self.beta = deg
+
+    def roll(self, deg):
+        self.gamma = deg
