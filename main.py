@@ -11,8 +11,6 @@ alpha = 0
 beta = 0
 gamma = 0
 
-r, g, b = 0, 0, 0
-
 while run:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
