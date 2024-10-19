@@ -11,6 +11,8 @@ alpha = 0
 beta = 0
 gamma = 0
 
+torus = o.Torus(50, 100)
+
 while run:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -36,21 +38,19 @@ while run:
     screen.fill("black")
 
     """ cube = o.Cube(100)
-    cube2 = o.Cube(50)
+    #cube2 = o.Cube(50)
 
-    cube2.rotate(-alpha, -beta, -gamma)
+    #cube2.rotate(-alpha, -beta, -gamma)
 
     cube.rotate(alpha, beta, gamma)
 
-    cube2.draw(screen, screen_midpos, "blue")
+    #cube2.draw(screen, screen_midpos, "red")
 
-    cube.draw(screen, screen_midpos, "red") """
-
-    """ torus = o.Torus(50, 100)
+    cube.draw(screen, screen_midpos, "green") """
 
     torus.rotate(alpha, beta, gamma)
 
-    torus.draw(screen, screen_midpos, "green") """
+    torus.draw(screen, screen_midpos, "blue")
 
     # flip() the display to put your work on screen
     pygame.display.flip()
