@@ -76,14 +76,13 @@ class Torus(Object):
         super().__init__()
         self.r = r
         self.R = R
-        self.r_density = 16
-        self.R_density = 16
+        self.r_density = 8
+        self.R_density = 8
         self.vertices = self.vertices()
         self.center_of_mass = self.center_of_mass()
         self.edges = self.edges()
         
     def vertices(self):
-        # Hi hauria d'haver alguna manera de calcular la densitat en funció de r i R (com de gran és el torus)
         i = 0
         vertices_matrix = np.zeros((self.r_density*self.R_density, 3))
         for k in range(self.R_density):
@@ -93,23 +92,26 @@ class Torus(Object):
         return vertices_matrix
     
     def edges(self):
-        # Bàsicament aquesta funció ha de fixar un dels dos angles i unir els vèrtex corresponents.
         edges_matrix = np.zeros((self.r_density*self.R_density, 5, 3))
         for i in range(len(self.vertices)):
             k = 0
             edges_matrix[i][k] = self.vertices[i]
             for j in range(len(self.vertices)):
-                if j == (i+1)%(self.r_density*self.r_density) or j == (i-1)%(self.r_density*self.r_density) or j == (i+self.r_density)%(self.r_density*self.r_density) or j == (i-self.r_density)%(self.r_density*self.r_density):
-                    k += 1
-                    edges_matrix[i][k] = self.vertices[j]
+                if i%self.r_density == 0:
+                    if j == (i+1)%(self.r_density*self.r_density) or (j-i)%(self.r_density*self.r_density) == 15 or j == (i+self.r_density)%(self.r_density*self.r_density) or j == (i-self.r_density)%(self.r_density*self.r_density):
+                        k += 1
+                        edges_matrix[i][k] = self.vertices[j]    
+                elif i%self.r_density == -1%self.r_density:
+                    if (j+self.r_density-1) == i or (j+1) == i or j == (i+self.r_density)%(self.r_density*self.r_density) or j == (i-self.r_density)%(self.r_density*self.r_density):
+                        k += 1
+                        edges_matrix[i][k] = self.vertices[j]
+                else:
+                    if j == (i+1)%(self.r_density*self.r_density) or j == (i-1)%(self.r_density*self.r_density) or j == (i+self.r_density)%(self.r_density*self.r_density) or j == (i-self.r_density)%(self.r_density*self.r_density):
+                        k += 1
+                        edges_matrix[i][k] = self.vertices[j]
         return edges_matrix
     
     def draw(self, display, pos, color):
-        """ font = pygame.font.Font(None, 12)
-        for i in range(len(self.vertices)):
-            letter_surface = font.render(str(i), True, color)
-            p = t.xy_projection(t.translation(t.rotation(t.translation(self.vertices[i], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-            display.blit(letter_surface, p) """
         for i in range(len(self.edges)):
             p_init = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][0], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
             for j in range(len(self.edges[i])):
