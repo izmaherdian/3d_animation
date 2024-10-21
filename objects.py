@@ -89,30 +89,29 @@ class Torus(Object):
         for k in range(self.R_density):
             for n in range(self.r_density):
                 vertices_matrix[i] = [(self.R + self.r * math.cos(2*math.pi/self.r_density*n)) * math.cos(2*math.pi/self.R_density*k), (self.R + self.r * math.cos(2*math.pi/self.r_density*n)) * math.sin(2*math.pi/self.R_density*k), self.r * math.sin(2*math.pi/self.r_density*n)]
-                i+=1
+                i += 1
         return vertices_matrix
     
     def edges(self):
         # Bàsicament aquesta funció ha de fixar un dels dos angles i unir els vèrtex corresponents.
-        """ edges_matrix = np.zeros((self.r_density*self.R_density, 4, 3))
+        edges_matrix = np.zeros((self.r_density*self.R_density, 5, 3))
         for i in range(len(self.vertices)):
-            edges_matrix[i][0] = self.vertices[i]
-            k=1
+            k = 0
+            edges_matrix[i][k] = self.vertices[i]
             for j in range(len(self.vertices)):
-                if (j-i)%self.r_density == 1 or (j-i)%self.r_density == 15 or j == i+self.r_density%(self.r_density*self.R_density) or j == i-self.r_density%(self.r_density*self.R_density):
+                if j == (i+1)%(self.r_density*self.r_density) or j == (i-1)%(self.r_density*self.r_density) or j == (i+self.r_density)%(self.r_density*self.r_density) or j == (i-self.r_density)%(self.r_density*self.r_density):
+                    k += 1
                     edges_matrix[i][k] = self.vertices[j]
-                    k+=1
-        return edges_matrix """
-        pass
+        return edges_matrix
     
     def draw(self, display, pos, color):
-        font = pygame.font.Font(None, 12)
+        """ font = pygame.font.Font(None, 12)
         for i in range(len(self.vertices)):
             letter_surface = font.render(str(i), True, color)
             p = t.xy_projection(t.translation(t.rotation(t.translation(self.vertices[i], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-            display.blit(letter_surface, p)
-        """ for i in range(len(self.edges)):
+            display.blit(letter_surface, p) """
+        for i in range(len(self.edges)):
             p_init = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][0], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
             for j in range(len(self.edges[i])):
                 p_fin = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][j], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-                pygame.draw.aaline(display, color, p_init, p_fin) """
+                pygame.draw.aaline(display, color, p_init, p_fin)
