@@ -76,8 +76,8 @@ class Torus(Object):
         super().__init__()
         self.r = r
         self.R = R
-        self.r_density = 8
-        self.R_density = 8
+        self.r_density = 16
+        self.R_density = 16
         self.vertices = self.vertices()
         self.center_of_mass = self.center_of_mass()
         self.edges = self.edges()
