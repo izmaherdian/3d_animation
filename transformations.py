@@ -1,23 +1,28 @@
 import numpy as np
-import math
 
-def translation(p, v):
-    if len(v) < 3:
-        coords = np.array([p[0] + v[0], p[1] + v[1], p[2]])
-    else:
-        coords = np.array([p[0] + v[0], p[1] + v[1], p[2] + v[2]])
-    return coords
+def translation(point, vector):
+    if len(vector) == 2:
+        vector = np.array([vector[0], vector[1], 0])
+    return point + vector
 
-def rotation(p, alpha, beta, gamma):
-    yaw_matrix = np.array([[math.cos(alpha), -math.sin(alpha), 0], [math.sin(alpha), math.cos(alpha), 0], [0, 0, 1]])
-    pitch_matrix = np.array([[math.cos(beta), 0, math.sin(beta)], [0, 1, 0], [-math.sin(beta), 0, math.cos(beta)]])
-    roll_matrix = np.array([[1, 0, 0], [0, math.cos(gamma), -math.sin(gamma)], [0, math.sin(gamma), math.cos(gamma)]])
+def rotation(point, alpha, beta, gamma):
+    yaw_matrix = np.array([[np.cos(alpha), -np.sin(alpha), 0],
+                           [np.sin(alpha),  np.cos(alpha), 0],
+                           [0            ,              0, 1]])
+    pitch_matrix = np.array([[ np.cos(beta), 0, np.sin(beta)],
+                             [0            , 1,            0], 
+                             [-np.sin(beta), 0, np.cos(beta)]])
+    roll_matrix = np.array([[1,             0,              0], 
+                            [0, np.cos(gamma), -np.sin(gamma)], 
+                            [0, np.sin(gamma),  np.cos(gamma)]])
     rotation_matrix = yaw_matrix @ pitch_matrix @ roll_matrix
-    coords = rotation_matrix @ np.array([p[0], p[1], p[2]])
+    coords = rotation_matrix @ point
     return coords
 
-def xy_projection(p):
-    xy_projection_matrix = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 0]])
-    coords = xy_projection_matrix @ np.array([p[0], p[1], p[2]])
+def xy_projection(point):
+    xy_projection_matrix = np.array([[1, 0, 0], 
+                                     [0, 1, 0], 
+                                     [0, 0, 0]])
+    coords = xy_projection_matrix @ point
     coords = coords[:-1]
     return coords

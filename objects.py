@@ -1,7 +1,6 @@
 import numpy as np
 import transformations as t
 import pygame
-import math
 
 # El proper pas seria implementar les funcions dins la classe pare
 
@@ -31,6 +30,13 @@ class Object:
 
     def roll(self, deg):
         self.gamma = deg
+
+    def draw(self, display, pos, color):
+        for i in range(len(self.edges)):
+            p_init = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][0], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+            for j in range(len(self.edges[i])):
+                p_fin = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][j], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+                pygame.draw.aaline(display, color, p_init, p_fin)
 
 
 class Cube(Object):
@@ -62,13 +68,6 @@ class Cube(Object):
                     edges_matrix[i][k] = self.vertices[j]
                     k+=1
         return edges_matrix
-    
-    def draw(self, display, pos, color):
-        for i in range(len(self.edges)):
-            p_init = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][0], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-            for j in range(len(self.edges[i])):
-                p_fin = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][j], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-                pygame.draw.aaline(display, color, p_init, p_fin)
 
 class Torus(Object):
 
@@ -87,7 +86,7 @@ class Torus(Object):
         vertices_matrix = np.zeros((self.r_density*self.R_density, 3))
         for k in range(self.R_density):
             for n in range(self.r_density):
-                vertices_matrix[i] = [(self.R + self.r * math.cos(2*math.pi/self.r_density*n)) * math.cos(2*math.pi/self.R_density*k), (self.R + self.r * math.cos(2*math.pi/self.r_density*n)) * math.sin(2*math.pi/self.R_density*k), self.r * math.sin(2*math.pi/self.r_density*n)]
+                vertices_matrix[i] = [(self.R + self.r * np.cos(2*np.pi/self.r_density*n)) * np.cos(2*np.pi/self.R_density*k), (self.R + self.r * np.cos(2*np.pi/self.r_density*n)) * np.sin(2*np.pi/self.R_density*k), self.r * np.sin(2*np.pi/self.r_density*n)]
                 i += 1
         return vertices_matrix
     
@@ -110,10 +109,3 @@ class Torus(Object):
                         k += 1
                         edges_matrix[i][k] = self.vertices[j]
         return edges_matrix
-    
-    def draw(self, display, pos, color):
-        for i in range(len(self.edges)):
-            p_init = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][0], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-            for j in range(len(self.edges[i])):
-                p_fin = t.xy_projection(t.translation(t.rotation(t.translation(self.edges[i][j], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
-                pygame.draw.aaline(display, color, p_init, p_fin)

@@ -11,7 +11,7 @@ alpha = 0
 beta = 0
 gamma = 0
 
-torus = o.Torus(50, 100)
+cub = o.Cube(50)
 
 while run:
     # poll for events
@@ -37,20 +37,9 @@ while run:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
 
-    """ cube = o.Cube(100)
-    #cube2 = o.Cube(50)
+    cub.rotate(alpha, beta, gamma)
 
-    #cube2.rotate(-alpha, -beta, -gamma)
-
-    cube.rotate(alpha, beta, gamma)
-
-    #cube2.draw(screen, screen_midpos, "red")
-
-    cube.draw(screen, screen_midpos, "green") """
-
-    torus.rotate(alpha, beta, gamma)
-
-    torus.draw(screen, screen_midpos, "blue")
+    cub.draw(screen, screen_midpos, "blue")
 
     # flip() the display to put your work on screen
     pygame.display.flip()
