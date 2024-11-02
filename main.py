@@ -43,10 +43,10 @@ while run:
     screen.fill("black")
 
     cube.rotate(alpha, beta, gamma)
-    torus.rotate(alpha, beta, gamma)
+    #torus.rotate(alpha, beta, gamma)
 
-    cube.draw(screen, screen_midpos)
-    torus.draw(screen, screen_midpos, "red")
+    cube.draw(screen, screen_midpos, 'vertices')
+    #torus.draw(screen, screen_midpos, "red")
 
     # flip() the display to put your work on screen
     pygame.display.flip()

@@ -2,13 +2,6 @@ import numpy as np
 import transformations as t
 import pygame
 
-class Face():
-    def __init__(self):
-        pass
-
-    def is_visible(self):
-        pass
-
 class Cube():
     # V - E + F
     num_vertices = 8
@@ -86,9 +79,6 @@ class Cube():
     def roll(self, deg):
         self.gamma = deg
 
-    def is_visible(self):
-        pass
-
     def draw(self, display, pos, draw = 'edges', color = 'blue'):
         match draw:
             case 'vertices':
@@ -105,8 +95,12 @@ class Cube():
 
             case 'faces':
                 for face in self.faces:
-                    if face.is_visible():
-                        face.draw()
+                    lst = []
+                    for point in face:
+                        pnt = t.xy_projection(t.translation(t.rotation(t.translation(point, -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+                        lst.append(pnt)
+                    pygame.draw.polygon(display, color, lst)
+
             case _:
                 print("Error. Please introduce a correct object to draw ('vertices', 'edges', 'faces').")
 
