@@ -64,26 +64,12 @@ class Cube():
         # This set of points will be the vertices of the object.
         coords = np.sum(self.vertices, axis=0)/Cube.num_vertices
         return coords
-    
-    def rotate(self, alpha, beta, gamma):
-        self.yaw(alpha)
-        self.pitch(beta)
-        self.roll(gamma)
-
-    def yaw(self, deg):
-        self.alpha = deg
-    
-    def pitch(self, deg):
-        self.beta = deg
-
-    def roll(self, deg):
-        self.gamma = deg
 
     def draw(self, display, pos, draw = 'edges', color = 'blue'):
         match draw:
             case 'vertices':
-                for vertice in range(Cube.num_vertices):
-                    point = t.xy_projection(t.translation(t.rotation(t.translation(self.vertices[vertice], -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+                for vertice in self.vertices:
+                    point = t.xy_projection(t.translation(t.rotation(t.translation(vertice, -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
                     pygame.draw.circle(display, color, point, 1)
 
             case 'edges':
