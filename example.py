@@ -1,8 +1,6 @@
-name = 'Dog'
-match name:
-    case 'Eagle':
-        print(0)
-    case 'Crocodile':
-        print(1)
-    case _:
-        print(2)
+lst = [1, 2, 3, 4, 5, 6]
+
+for i in lst:
+    i = i+1
+
+print(lst)

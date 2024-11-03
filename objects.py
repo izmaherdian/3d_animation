@@ -14,9 +14,9 @@ class Cube():
         self.gamma = 0
         self.side_length = side_length
         self.vertices = self.vertices()
+        self.center_of_mass = self.center_of_mass()
         self.edges = self.edges()
         self.faces = self.faces()
-        self.center_of_mass = self.center_of_mass()
     
     def vertices(self):
         vertices_matrix = np.zeros((Cube.num_vertices, 3))
@@ -64,12 +64,40 @@ class Cube():
         # This set of points will be the vertices of the object.
         coords = np.sum(self.vertices, axis=0)/Cube.num_vertices
         return coords
-
-    def draw(self, display, pos, draw = 'edges', color = 'blue'):
+    
+    def update(self, delta_time):
+        SPEED = 0.01
+        update_vertices = False
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.alpha -= SPEED * delta_time
+            update_vertices = True
+        if keys[pygame.K_s]:
+            self.alpha += SPEED * delta_time
+            update_vertices = True
+        if keys[pygame.K_a]:
+            self.beta -= SPEED * delta_time
+            update_vertices = True
+        if keys[pygame.K_d]:
+            self.beta += SPEED * delta_time
+            update_vertices = True
+        if keys[pygame.K_e]:
+            self.gamma -= SPEED * delta_time
+            update_vertices = True
+        if keys[pygame.K_q]:
+            self.gamma += SPEED * delta_time
+            update_vertices = True
+        
+        if update_vertices:
+            for vertice in range(Cube.num_vertices):
+                # self.vertices[vertice] = t.rotation(t.translation(self.vertices[vertice], -self.center_of_mass), self.alpha, self.beta, self.gamma)
+                self.vertices[vertice] = t.rotation(self.vertices[vertice], self.alpha, self.beta, self.gamma)
+        
+    def draw(self, display, pos, draw = 'vertices', color = 'blue'):
         match draw:
             case 'vertices':
                 for vertice in self.vertices:
-                    point = t.xy_projection(t.translation(t.rotation(t.translation(vertice, -self.center_of_mass), self.alpha, self.beta, self.gamma), pos))
+                    point = t.xy_projection(t.translation(vertice, pos))
                     pygame.draw.circle(display, color, point, 1)
 
             case 'edges':

@@ -22,24 +22,15 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        cube.alpha -= 1 * dt
-    if keys[pygame.K_s]:
-        cube.alpha += 1 * dt
-    if keys[pygame.K_a]:
-        cube.beta -= 1 * dt
-    if keys[pygame.K_d]:
-        cube.beta += 1 * dt
-    if keys[pygame.K_e]:
-        cube.gamma -= 1 * dt
-    if keys[pygame.K_q]:
-        cube.gamma += 1 * dt
-
     # fill the screen with a color to wipe away anything from last frame
-    #screen.fill("black")
+    
+    screen.fill("black")
+
+    cube.update(dt)
+    
     print(cube.vertices)
-    cube.draw(screen, screen_midpos, 'vertices')
+    
+    cube.draw(screen, screen_midpos)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
