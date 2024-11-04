@@ -28,6 +28,11 @@ class Cube():
                     vertices_matrix[vertice] = [a, b, c]
                     vertice += 1
 
+        center_of_mass = np.sum(vertices_matrix, axis=0)/Cube.num_vertices
+
+        for vertice in range(Cube.num_vertices):
+            vertices_matrix[vertice] = t.translation(vertices_matrix[vertice], -center_of_mass)
+
         return vertices_matrix
 
     def edges(self):
