@@ -9,7 +9,6 @@ run = True
 dt = 0
 
 cube = o.Cube(100)
-torus = o.Torus(20, 50)
 
 while run:
     # limits FPS to 60
@@ -28,7 +27,10 @@ while run:
 
     cube.update(dt)
     
-    print(cube.vertices)
+    #print(cube.vertices)
+    #print(cube.alpha)
+    #print(cube.beta)
+    #print(cube.gamma)
     
     cube.draw(screen, screen_midpos)
 

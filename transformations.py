@@ -6,6 +6,9 @@ def translation(point, vector):
     return point + vector
 
 def rotation(point, alpha, beta, gamma):
+    "Aquesta rotació actua sobre les coordenades absolutes, és a dir, yaw és una rotació de alpha graus sobre el pla XY"
+    "deixant invariant l'eix Z. El pitch, deixa invariant tot vector de la forma (0, 1, 0) i per tant, l'eix Y és invariant."
+    "Al roll li passa el mateix però en X."
     yaw_matrix = np.array([[np.cos(alpha), -np.sin(alpha), 0],
                            [np.sin(alpha),  np.cos(alpha), 0],
                            [0            ,              0, 1]])

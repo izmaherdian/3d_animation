@@ -71,7 +71,7 @@ class Cube():
         return coords
     
     def update(self, delta_time):
-        SPEED = 0.01
+        SPEED = 1
         update_vertices = False
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
@@ -98,7 +98,7 @@ class Cube():
                 # self.vertices[vertice] = t.rotation(t.translation(self.vertices[vertice], -self.center_of_mass), self.alpha, self.beta, self.gamma)
                 self.vertices[vertice] = t.rotation(self.vertices[vertice], self.alpha, self.beta, self.gamma)
         
-    def draw(self, display, pos, draw = 'vertices', color = 'blue'):
+    def draw(self, display, pos, draw = 'edges', color = 'blue'):
         match draw:
             case 'vertices':
                 for vertice in self.vertices:
