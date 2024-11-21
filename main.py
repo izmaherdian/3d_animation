@@ -8,6 +8,7 @@ clock = pygame.time.Clock()
 run = True
 dt = 0
 
+abs_axis = o.Axis(screen_midpos)
 cube = o.Cube(100)
 
 while run:
@@ -26,11 +27,6 @@ while run:
     screen.fill("black")
 
     cube.update(dt)
-    
-    #print(cube.vertices)
-    #print(cube.alpha)
-    #print(cube.beta)
-    #print(cube.gamma)
     
     cube.draw(screen, screen_midpos)
 

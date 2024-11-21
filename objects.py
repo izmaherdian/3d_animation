@@ -2,6 +2,15 @@ import numpy as np
 import transformations as t
 import pygame
 
+class Axis():
+    AXIS_LENGTH = 10
+
+    def __init__(self, pos):
+        self.pos = pos
+
+    def draw(display):
+        pass
+
 class Cube():
     # V - E + F
     num_vertices = 8
