@@ -29,9 +29,3 @@ def xy_projection(point):
     coords = xy_projection_matrix @ point
     coords = coords[:-1]
     return coords
-
-def change_of_basis():
-    pass
-
-def homothety():
-    pass
